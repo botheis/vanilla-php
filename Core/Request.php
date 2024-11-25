@@ -10,10 +10,17 @@ namespace Core{
         private $_get;
         private $_post;
 
-        static public function getInstance(){
+        /**
+        * \brief Generates a unique instance of class \Core\Request
+        * \returns \Core\Request object
+        */
+        static public function getInstance():\Core\Request{
             return static::$_instance = (static::$_instance == NULL) ? new Request() : static::$_instance;
         }
 
+        /**
+         * \brief Used only once on getInstance method. Generates all the data arrays
+         */
         private function __construct(){
             $this->_headers = getallheaders();
             $this->_config = [];
@@ -29,10 +36,21 @@ namespace Core{
             $this->_post = $_POST;
         }
 
+        /**
+         * \brief : Test if the key is present in header infos.
+         * \param $key : the challenged key
+         * \returns : bool, true if the key is present else false. 
+         */
         public function hasHeader($key){
             return (!empty($this->_headers[$key])) ? true : false;
         }
 
+        /** \brief Get the $key / set the $value to $key in request header.
+        * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
+        * In Set mode, set the value to the key, then returns the old value
+        * \param $key : the key tested
+        * \param $value : the value to set (in set mode)
+        */
         public function header($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_headers;
@@ -47,10 +65,22 @@ namespace Core{
             return $old;
         }
 
-        public function hasConfig($key){
+        /**
+         * \brief Check if the $key is in the config.
+         * \param $key the tested key
+         * \returns boolean. True if the key is present else false.
+         */
+        public function hasConfig(string $key){
             return (!empty($this->_config[$key])) ? true : false;
         }
 
+        /**
+         * \brief Get the $key / set the $value to $key in Request config.
+         * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
+         * In Set mode, set the value to the key, then returns the old value
+         * \param $key : the key tested
+         * \param $value : the value to set (in set mode)
+         */
         public function config($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_config;
@@ -65,10 +95,21 @@ namespace Core{
             return $old;
         }
 
+        /**
+         * \brief Test if the GET params has a value associated to $key
+         * \return boolean true if the key is present else false.
+         */
         public function hasGet($key){
             return (!empty($this->_get[$key])) ? true : false;
         }
 
+
+        /**
+         * \brief : Get / Set key=>value into $_GET
+         * \param $key : the key tested
+         * \param $value : the value to set (in set mode)
+         * \return : the value associated to the key
+         */
         public function get($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_get;
@@ -83,10 +124,22 @@ namespace Core{
             return $old;
         }
 
+        /**
+         * \brief Test if the POST params has a value associated to $key
+         * \return boolean true if the key is present else false.
+         */
         public function hasPost($key){
             return (!empty($this->_post[$key])) ? true : false;
         }
 
+        /**
+         * \brief Get the $key / set the $value to $key in POST params.
+         * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
+         * In Set mode, set the value to the key, then returns the old value
+         * \param $key : the key tested
+         * \param $value : the value to set (in set mode)
+         * \returns the value associated to the key
+         */
         public function post($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_post;
