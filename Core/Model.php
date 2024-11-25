@@ -6,7 +6,27 @@ namespace Core{
         static protected $_db;
         static protected $_instance;
 
-        public function select($element, $where = [], $offset=0, $limit=-1, $order=[]){
+        /**
+         * Try to select the specified ressources with the clauses on the database
+         *
+         * @param string $element table name
+         * @param array $where causes where to add on the request.
+         *
+         * The $where clause is an array of arrays i.e.:
+         * [
+         *  ["id", "=", 5],
+         *  ["AND", "id_role", "=", 1]
+         * ]
+         *
+         * In this example we can see AND and OR clauses can be added indifferently
+         *
+         * @param int $offset add offset clause to the request
+         * @param int $limit add limit clause to the request
+         * @param array $order add the order clause to the request.
+         *
+         * The $order clause is declared in an array : [ "column_name", "asc" ]
+         */
+        public function select(string $element, array $where = [], int $offset=0, int $limit=-1, array $order=[]){
             $sql = "SELECT * FROM $element";
             $params = [];
             $i = 0;
@@ -42,18 +62,31 @@ namespace Core{
                 $sql .= " LIMIT ".$offset.','.$limit;
             }
 
-            
-
-
             $query = static::$_db->prepare($sql);
             $query->execute($params);
-            
+
             $datas = $query->fetchAll(\PDO::FETCH_ASSOC);
-            
+
             return $datas;
         }
 
-        public function count($element, $where = []){
+        /**
+         * Count the elements based on the $where clause
+         *
+         * @param string $element table name
+         * @param array $where causes where to add on the request.
+         *
+         * The $where clause is an array of arrays i.e.:
+         * [
+         *  ["id", "=", 5],
+         *  ["AND", "id_role", "=", 1]
+         * ]
+         *
+         * In this example we can see AND and OR clauses can be added indifferently
+         *
+         * @return int the final count
+         */
+        public function count(string $element, $where = []){
             $sql = "SELECT count(*) as nb FROM $element";
             $params = [];
             $i = 0;
@@ -80,13 +113,29 @@ namespace Core{
 
             $query = static::$_db->prepare($sql);
             $query->execute($params);
-            
+
             $datas = $query->fetch(\PDO::FETCH_ASSOC);
-            
+
             return $datas["nb"];
         }
 
-        public function update($element, $fields, $where){
+        /**
+         * Update the specified table with the values contained in $fields, based on $where clause
+         *
+         * @param string $element table to update
+         * @param array $fields associative array containing the new values
+         * @param array $where causes where to add on the request.
+         *
+         * The $where clause is an array of arrays i.e.:
+         * [
+         *  ["id", "=", 5],
+         *  ["AND", "id_role", "=", 1]
+         * ]
+         *
+         * In this example we can see AND and OR clauses can be added indifferently
+         *
+         */
+        public function update(string $element, array $fields, $where=[]){
             $sql = "UPDATE $element SET ";
 
             $elements = [];
@@ -132,7 +181,14 @@ namespace Core{
             return true;
         }
 
-        public function insert($element, $fields){
+        /**
+         * Insert datas into table specified by $element
+         *
+         * @param string $element the selected table
+         * @param array $fields associative array containing the new values
+         * @return mixed last inserted id on success, else false
+         */
+        public function insert(string $element, array $fields){
             $sql = "INSERT INTO $element";
 
             $elements = [];
@@ -175,7 +231,22 @@ namespace Core{
         }
 
 
-        public function delete($element, $where){
+        /**
+         * Delete rows from table specified by $element
+         *
+         * @param string $element the selected table
+         * @param array $where causes where to add on the request.
+         *
+         * The $where clause is an array of arrays i.e.:
+         * [
+         *  ["id", "=", 5],
+         *  ["AND", "id_role", "=", 1]
+         * ]
+         *
+         * In this example we can see AND and OR clauses can be added indifferently
+         * @return boolean true if success else false
+         */
+        public function delete(string $element, array $where = []){
             $sql = "DELETE FROM $element";
 
             $i = 0;
@@ -214,7 +285,15 @@ namespace Core{
             return true;
         }
 
-        public function exec($statment, $params=[]){
+        /**
+         * Execute bulk query
+         *
+         * @param string $statment the sql request
+         * @param array $params the params needed to the prepare statment.
+         *
+         * @return mixed depend on the type of request (select, insert, update|delete), try to determine an adequat result.
+         */
+        public function exec(string $statment, array $params=[]){
             static::$_db->beginTransaction();
             $query = static::$_db->prepare($statment);
             $result = NULL;

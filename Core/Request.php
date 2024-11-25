@@ -11,15 +11,15 @@ namespace Core{
         private $_post;
 
         /**
-        * \brief Generates a unique instance of class \Core\Request
-        * \returns \Core\Request object
+        * Generates a unique instance of class \Core\Request
+        * @return \Core\Request::class
         */
         static public function getInstance():\Core\Request{
             return static::$_instance = (static::$_instance == NULL) ? new Request() : static::$_instance;
         }
 
         /**
-         * \brief Used only once on getInstance method. Generates all the data arrays
+         * Used only once on getInstance method. Generates all the data arrays
          */
         private function __construct(){
             $this->_headers = getallheaders();
@@ -37,19 +37,20 @@ namespace Core{
         }
 
         /**
-         * \brief : Test if the key is present in header infos.
-         * \param $key : the challenged key
-         * \returns : bool, true if the key is present else false. 
+         * Test if the key is present in request header.
+         * @param string $key the challenged key
+         * @return bool true if the key is present else false.
          */
         public function hasHeader($key){
             return (!empty($this->_headers[$key])) ? true : false;
         }
 
-        /** \brief Get the $key / set the $value to $key in request header.
+        /** Get the $key / set the $value to $key in request header.
+         * @param string $key the key tested
+         * @param mixed $value the value to set (in set mode)
         * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
         * In Set mode, set the value to the key, then returns the old value
-        * \param $key : the key tested
-        * \param $value : the value to set (in set mode)
+        * @return mixed the associated value to the key or NULL if no value is associated to the key
         */
         public function header($key=NULL, $value=NULL){
             if($key == NULL){
@@ -66,21 +67,21 @@ namespace Core{
         }
 
         /**
-         * \brief Check if the $key is in the config.
-         * \param $key the tested key
-         * \returns boolean. True if the key is present else false.
+         * Test if the key is present in request config.
+         * @param string $key the challenged key
+         * @return bool true if the key is present else false.
          */
         public function hasConfig(string $key){
             return (!empty($this->_config[$key])) ? true : false;
         }
 
-        /**
-         * \brief Get the $key / set the $value to $key in Request config.
-         * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
-         * In Set mode, set the value to the key, then returns the old value
-         * \param $key : the key tested
-         * \param $value : the value to set (in set mode)
-         */
+        /** Get the $key / set the $value to $key in request config.
+        * @param string $key the key tested
+        * @param mixed $value the value to set (in set mode)
+        * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
+        * In Set mode, set the value to the key, then returns the old value
+        * @return mixed the associated value to the key or NULL if no value is associated to the key
+        */
         public function config($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_config;
@@ -96,20 +97,22 @@ namespace Core{
         }
 
         /**
-         * \brief Test if the GET params has a value associated to $key
-         * \return boolean true if the key is present else false.
+         * Test if the key is present in request GET params.
+         * @param string $key the challenged key
+         * @return bool true if the key is present else false.
          */
         public function hasGet($key){
             return (!empty($this->_get[$key])) ? true : false;
         }
 
 
-        /**
-         * \brief : Get / Set key=>value into $_GET
-         * \param $key : the key tested
-         * \param $value : the value to set (in set mode)
-         * \return : the value associated to the key
-         */
+        /** Get the $key / set the $value to $key in request GET params.
+        * @param string $key the key tested
+        * @param mixed $value the value to set (in set mode)
+        * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
+        * In Set mode, set the value to the key, then returns the old value
+        * @return mixed the associated value to the key or NULL if no value is associated to the key
+        */
         public function get($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_get;
@@ -125,21 +128,21 @@ namespace Core{
         }
 
         /**
-         * \brief Test if the POST params has a value associated to $key
-         * \return boolean true if the key is present else false.
+         * Test if the key is present in request POST params.
+         * @param string $key the challenged key
+         * @return bool true if the key is present else false.
          */
         public function hasPost($key){
             return (!empty($this->_post[$key])) ? true : false;
         }
 
-        /**
-         * \brief Get the $key / set the $value to $key in POST params.
-         * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
-         * In Set mode, set the value to the key, then returns the old value
-         * \param $key : the key tested
-         * \param $value : the value to set (in set mode)
-         * \returns the value associated to the key
-         */
+        /** Get the $key / set the $value to $key in request POST params.
+        * @param string $key the key tested
+        * @param mixed $value the value to set (in set mode)
+        * In Get mode, if the key is NULL, returns all the array, else the value associated to the key.
+        * In Set mode, set the value to the key, then returns the old value
+        * @return mixed the associated value to the key or NULL if no value is associated to the key
+        */
         public function post($key=NULL, $value=NULL){
             if($key == NULL){
                 return $this->_post;
