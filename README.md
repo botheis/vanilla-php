@@ -123,17 +123,14 @@ dbname=myProject
 ; dbengine=mysql
 ; dbhost=localhost
 ; dbport=3306
-; dbuser=eglise
-; dbpassword="E9L153$"
-; dbname=bible
+; dbuser=db2
+; dbpassword="db2_password"
+; dbname=db2
 
 
 [security]
 ; csrf token expires after 3600 secs after its generation
 csrf_expiration=3600
-
-; currently not used, but can be later, i.e. for jwt tokens or other hash.
-password_hash ="Am9_3r*mLG 3ae!/"
 
 ; specify the password length required
 password_min_len=8
