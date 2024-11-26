@@ -40,10 +40,10 @@ namespace Core{
                 // ======
 
                 // _csrf
-                $content = preg_replace("#@csrf#", "<input type='hidden' name='_csrf' value='".$session->get("_csrf")."' />", $content);
+                $content = preg_replace("#&csrf#", "<input type='hidden' name='_csrf' value='".$session->get("_csrf")."' />", $content);
 
                 // render
-                $content = preg_replace_callback("#@render\((.*)\)#", function($view) use ($datas){
+                $content = preg_replace_callback("#&render\((.*)\)#", function($view) use ($datas){
                     array_shift($view);
                     $view = $view[0];
                     ob_start();
@@ -52,7 +52,7 @@ namespace Core{
                     return $partial;
                 }, $content);
 
-                $content = preg_replace_callback("#@data\((.*)\)#", function($keys) use ($datas){
+                $content = preg_replace_callback("#&data\((.*)\)#", function($keys) use ($datas){
                     array_shift($keys);
                     $keys = $keys[0];
 
@@ -73,7 +73,7 @@ namespace Core{
                     return "";
                 }, $content);
 
-                $content = preg_replace_callback("#@pagination#", function() use ($datas){
+                $content = preg_replace_callback("#&pagination#", function() use ($datas){
                     global $request;
                     // No pagination if there is just 1 page
                     if(!isset($datas["pagination"]["total"]) || $datas["pagination"]["total"] == 1){
