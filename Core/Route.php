@@ -58,9 +58,9 @@ namespace Core{
                 return false;
             }
 
+            $uri = trim($uri, '/');
             foreach(\Core\Route::$_list[$method] as $route){
                 $matches = [];
-                $uri = trim($uri, '/');
 
                 $regex = preg_replace("#:([\w]+)#", "([\w]+)", $route->_uri);
                 $regex = preg_replace("#\/\?([\w]+)?#", "\/?([\w]+)?", $regex);

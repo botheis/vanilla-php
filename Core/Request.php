@@ -29,7 +29,7 @@ namespace Core{
             $this->_config["protocol"] = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
             $this->_config["ip"] = htmlentities($_SERVER["REMOTE_ADDR"]);
             $this->_config["client"] = htmlentities($_SERVER["HTTP_USER_AGENT"]);
-            $this->_config["uri"] = htmlentities($_GET["uri"]);
+            $this->_config["uri"] = !(empty($_GET["uri"])) ? htmlentities($_GET["uri"]) : "/";
             unset($_GET['uri']);
 
             $this->_get = $_GET;
