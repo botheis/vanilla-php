@@ -3,9 +3,18 @@
 namespace Core{
 
     class Model{
-        static protected $_db;
-        static protected $_instance;
+        static protected $_db = NULL;
+        static protected $_instance = NULL;
+        protected $_activated;
 
+        protected function __construct(){
+            if(static::$_db == NULL)
+                $this->_activated = false;
+            else{
+                $this->_activated = true;
+
+            }
+        }
         /**
          * Try to select the specified ressources with the clauses on the database
          *
@@ -27,6 +36,9 @@ namespace Core{
          * The $order clause is declared in an array : [ "column_name", "asc" ]
          */
         public function select(string $element, array $where = [], int $offset=0, int $limit=-1, array $order=[]){
+            if($this->_activated == false){
+                return [];
+            }
             $sql = "SELECT * FROM $element";
             $params = [];
             $i = 0;
@@ -87,6 +99,9 @@ namespace Core{
          * @return int the final count
          */
         public function count(string $element, $where = []){
+            if($this->_activated == false){
+                return 0;
+            }
             $sql = "SELECT count(*) as nb FROM $element";
             $params = [];
             $i = 0;
@@ -136,6 +151,9 @@ namespace Core{
          *
          */
         public function update(string $element, array $fields, $where=[]){
+            if($this->_activated == false){
+                return false;
+            }
             $sql = "UPDATE $element SET ";
 
             $elements = [];
@@ -189,6 +207,9 @@ namespace Core{
          * @return mixed last inserted id on success, else false
          */
         public function insert(string $element, array $fields){
+            if($this->_activated == false){
+                return 0;
+            }
             $sql = "INSERT INTO $element";
 
             $elements = [];
@@ -247,6 +268,9 @@ namespace Core{
          * @return boolean true if success else false
          */
         public function delete(string $element, array $where = []){
+            if($this->_activated == false){
+                return false;
+            }
             $sql = "DELETE FROM $element";
 
             $i = 0;
@@ -294,6 +318,9 @@ namespace Core{
          * @return mixed depend on the type of request (select, insert, update|delete), try to determine an adequat result.
          */
         public function exec(string $statment, array $params=[]){
+            if($this->_activated == false){
+                return false;
+            }
             static::$_db->beginTransaction();
             $query = static::$_db->prepare($statment);
             $result = NULL;
@@ -333,6 +360,16 @@ namespace Core{
                 return $lastId;
             }
             return $query;
+        }
+
+        public static function load($dbname){
+            global $dbs;
+            if(!empty($dbs[$dbname])){
+                static::$_db = $dbs[$dbname];
+            }
+            else{
+                static::$_db = NULL;
+            }
         }
 
     };

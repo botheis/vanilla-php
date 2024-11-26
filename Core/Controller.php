@@ -13,10 +13,10 @@ namespace Core{
          * The "Views" prefix is not needed.
          *
          * It is possible to use some meta content directly into the view page:
-         * - @csrf : add a hidden input containing the csrf token.
-         * - @render(path.to.view) generates the render for the "path.to.view" view.
-         * - @data(key.to.value) will be replaced by the data stored in the initial $datas["key"]["to"]["value"].
-         * - @pagination generates automatically the links needed for all the pages.
+         * - &csrf : add a hidden input containing the csrf token.
+         * - &render(path.to.view) generates the render for the "path.to.view" view.
+         * - &data(key.to.value) will be replaced by the data stored in the initial $datas["key"]["to"]["value"].
+         * - &pagination generates automatically the links needed for all the pages.
          *
          * /!\ The pagination use html elements compatible with bulma css
          *

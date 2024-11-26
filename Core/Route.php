@@ -20,7 +20,7 @@ namespace Core{
          * These middlewares are interceptors used to do some verifications or modifications on the workflow.
          * @see includes/routes.php to see the routes declarations
          */
-        public function __construct(mixed $methods, string $uri, callable $callback, mixed $middlewares=[]){
+        public function __construct(mixed $methods, string $uri, mixed $callback, mixed $middlewares=[]){
             if(!is_string($uri)){
                 return;
             }
