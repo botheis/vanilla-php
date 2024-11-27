@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit colors="true" beStrictAboutTestsThatDoNotTestAnything="true">
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <ini name="display_errors" value="1" />
+    </php>
+    
+    <testsuite name="Global Unit Tests">
+        <directory>./Tests</directory>
+    </testsuite>
+</phpunit>

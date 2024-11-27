@@ -22,7 +22,12 @@ namespace Core{
          * Used only once on getInstance method. Generates all the data arrays
          */
         private function __construct(){
-            $this->_headers = getallheaders();
+
+            $this->_headers = [];
+            if(function_exists("getallheaders")){
+                // Needed for Unit Tests
+                $this->_headers = getallheaders();
+            }
             $this->_config = [];
             $this->_config["method"] = $this->hasHeader("X-HTTP-Method-Override") ? htmlentities($this->header("X-HTTP-Method-Override")) : htmlentities($_SERVER["REQUEST_METHOD"]);
             $this->_config["port"] = htmlentities($_SERVER["SERVER_PORT"]);
@@ -32,8 +37,16 @@ namespace Core{
             $this->_config["uri"] = !(empty($_GET["uri"])) ? htmlentities($_GET["uri"]) : "/";
             unset($_GET['uri']);
 
-            $this->_get = $_GET;
-            $this->_post = $_POST;
+            $this->_get = [];
+            $this->_post = [];
+
+            foreach($_GET as $key=>$value){
+                $this->_get[htmlentities($key)] = htmlentities($_GET[$key]);
+            }
+
+            foreach($_POST as $key=>$value){
+                $this->_get[htmlentities($key)] = htmlentities($_POST[$key]);
+            }
         }
 
         /**
