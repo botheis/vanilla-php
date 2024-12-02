@@ -9,9 +9,11 @@ The development has been done under this configuration:
 - Debian 12
 - php8 (8.2.24)
   - php8.2-mysql
+  - php-xml
 - apache2 (2.4.62)
   - libapache2-mod-php8.2
 - mariadb 11.5.2
+- composer
 
 # Installation
 
@@ -141,3 +143,10 @@ maxperpage=20
 ```
 
 All done, now you have to create your content.
+
+## Composer
+
+You just have to run the composer modules installation
+
+```bash
+composer install```

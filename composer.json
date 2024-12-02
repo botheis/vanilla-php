@@ -3,6 +3,12 @@
         "phpunit/phpunit": "^11.4"
     },
     "autoload": {
-        "files": ["includes/autoload.php"]
+        "files": ["includes/autoload.php"],
+        "psr-4": {
+            "Core\\": "Core",
+            "Controllers\\": "Controllers",
+            "Middlewares\\": "Middlewares",
+            "Models\\": "Models"
+        }
     }
 }

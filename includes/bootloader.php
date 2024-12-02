@@ -4,7 +4,7 @@
  * This page is not reachable from outside, it's called from index
  */
 
-require_once("autoloader.php");
+require_once("autoload.php");
 
 // Load configuration
 // ----
